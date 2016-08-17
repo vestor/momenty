@@ -1,0 +1,29 @@
+{
+  "manifest_version" : 2,
+  "name" : "Momenty",
+  "description" : "Get Medium like higlighting for every website.",
+  "version" : "0.1",
+
+  "browser_action" : {
+    "default_icon" : "images/icon.png",
+    "default_title": "Momenty",
+    "default_popup" : "html/popup.html"
+  },
+
+  "permissions" : [
+    "activeTab"
+  ],
+
+  "background" : {
+    "scripts" : ["js/background.js"],
+    "persistent" : false
+  },
+
+  "content_scripts" : [
+    {
+      "matches" : ["<all_urls>"],
+      "js" : ["js/content_script.js"],
+      "css" : ["css/content_script.css"]
+    }
+  ]
+}
