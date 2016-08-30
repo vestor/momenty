@@ -1,4 +1,5 @@
 {
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwiEGiMS5E120fcx72wqtzw+tFbWbVtSg/muRaoSCIEehla2laAFRgKOjSqVvGPiBVqtGgftprXX3AvkAEZ3RqM2H6VM50H2aim93rN1goNc7/i36RLdO5shWffrf0j0NWvMnZ5t35fJb/JypvX9KzO5Uz+abYnzSF9dPBMNBsbquAD0Ili5Fl+R4twJ2jZNQB+xsAWFpxzE5kK+pNOhcWGNZIjzkQJUvb1A0BJU+l4KBhNMce8qWa3Soyz5tQncOiOGunlyxHSZ/i7B40FHUZ4KgGHM9RYa5Hj/SdVjaZb7Wsa9FqUI15PEZwdCLVBO6pUqCrF3J8/Mgolfu/ThGLQIDAQAB",
   "manifest_version" : 2,
   "name" : "Momenty",
   "description" : "Get Medium like higlighting for every website.",
@@ -6,24 +7,37 @@
 
   "browser_action" : {
     "default_icon" : "images/icon.png",
-    "default_title": "Momenty",
-    "default_popup" : "html/popup.html"
+    "default_title": "Momenty"
   },
 
   "permissions" : [
-    "activeTab"
+    "activeTab",
+    "identity",
+    "tabs"
   ],
 
   "background" : {
-    "scripts" : ["js/background.js"],
+    "scripts" : ["js/background.js","js/google_platform.js"],
     "persistent" : false
+  },
+
+  "oauth2" : {
+    "client_id" : "911578277782-8cf8um2j5m7uprf3gajj69bi0igakfq2.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/userinfo.email"]
+
   },
 
   "content_scripts" : [
     {
-      "matches" : ["<all_urls>"],
-      "js" : ["js/content_script.js"],
+      "matches": ["<all_urls>"],
+      "js" : ["js/controller.js", "js/jquery_min_3.1.0.js", "js/service.js", "js/config.js"],
       "css" : ["css/content_script.css"]
     }
+  ],
+
+  "web_accessible_resources": [
+    "html/highlighter.html"
   ]
+
+
 }
