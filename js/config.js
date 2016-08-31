@@ -1,4 +1,4 @@
 var config = {
-  apiUrl : 'momenty.co/api/v1/',
+  apiUrl : 'http://momenty.co/api/v1/',
 
 }

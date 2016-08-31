@@ -15,14 +15,14 @@
     left: 0;
 }
 
-.highlightMenu-inner {
+.highlightMenuM-inner {
     position: relative;
     background-image: linear-gradient(to bottom,rgba(49,49,47,.99),#262625);
     background-repeat: repeat-x;
     border-radius: 5px;
 }
 
-.button--highlightMenu{
+.button--highlightMenuM{
   align-items: flex-start;
   background-attachment: scroll;
   background-clip: border-box;
@@ -100,7 +100,7 @@
   -webkit-user-select: none;
 }
 
-.buttonSet--highlightMenu {
+.buttonSet--highlightMenuM {
   color: rgba(0, 0, 0, 0.8);
   display: block;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
@@ -115,7 +115,7 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.svgIcon--highlighter {
+.svgIcon--highlighterM {
   color: rgb(255, 255, 255);
   cursor: pointer;
   display: inline;
@@ -139,4 +139,9 @@
   word-spacing: 0px;
   -webkit-font-smoothing: antialiased;
   -webkit-user-select: none;
+}
+
+
+.highlightedTextM {
+
 }

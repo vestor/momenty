@@ -1,4 +1,3 @@
-
 var xmlhttp=false;
 
 var selection, isHighlighterShown = false;
@@ -6,14 +5,14 @@ var selection, isHighlighterShown = false;
 //Setup the div to insert
 var div = document.createElement('div');
 div.cssText = 'z-index : 999999; position : absolute;';
-div.className = 'highlightMenu'
+div.className = 'highlightMenu';
 div.id = 'highlighterMenu';
 var str =
-'<div class="highlightMenu-inner">'
-   + '<div class="buttonSet--highlightMenu">'
-      + '<button id="highlighterButtonM" class="button--highlightMenu">'
+'<div class="highlightMenuM-inner">'
+   + '<div class="buttonSet--highlightMenuM">'
+      + '<button id="highlighterButtonM" class="button--highlightMenuM">'
          + '<span>'
-            + '<svg class="svgIcon--highlighter" width="25" height="25" viewBox="0 0 25 25">'
+            + '<svg class="svgIcon--highlighterM" width="25" height="25" viewBox="0 0 25 25">'
               + '<path d="M13.7 15.964l5.204-9.387-4.726-2.62-5.204 9.387 4.726 2.62zm-.493.885l-1.313 2.37-1.252.54-.702 1.263-3.796-.865 1.228-2.213-.202-1.35 1.314-2.37 4.722 2.616z" fill-rule="evenodd"></path>'
             + '</svg>'
          + '</span>'
@@ -21,18 +20,31 @@ var str =
    + '</div>'
 + '</div>'
 + '<div class="highlightMenu-arrowClip"><span class="highlightMenu-arrow"></span></div>';
-console.debug(str);
+// console.debug(str);
 div.innerHTML += str;
 
 document.body.appendChild(div);
-document.getElementById("highlighterButtonM").addEventListener("click",
-    function() {
-      postSelection(selection);
+
+Momenty.init(highlightRange);
+
+document.getElementById("highlighterButtonM").addEventListener("click",function() {
+      Momenty.postSelection(selection, highlightRange);
 }, false);
+
+
+function highlightRange(range) {
+    var newNode = document.createElement("div");
+    newNode.setAttribute(
+       "style",
+       "background-color: green; display: inline;"
+    );
+    newNode.setAttribute("class", "highlightedTextM")
+    range.surroundContents(newNode);
+}
 
 function getSelectedText() {
     var text = "";
-    var x, y, width, height, sel;
+    var x, y, width, height, sel, range;
     if (typeof window.getSelection != "undefined") {
         sel = window.getSelection();
 
@@ -83,7 +95,7 @@ function getSelectedText() {
 
 
     }
-    return {x:x, y:y, width: width, height: height, text:text, selection: sel};
+    return {x:x, y:y, width: width, height: height, text:text, selection: sel, range : range};
 }
 function getCoords(elem) { // crossbrowser version
     var box = elem.getBoundingClientRect();
