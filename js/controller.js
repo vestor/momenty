@@ -23,7 +23,9 @@ var str =
 // console.debug(str);
 div.innerHTML += str;
 
-document.body.appendChild(div);
+var highlighter = document.body.appendChild(div);
+var highlighterStyle = highlighter.style;
+
 
 Momenty.init(highlightRange);
 
@@ -32,18 +34,20 @@ document.getElementById("highlighterButtonM").addEventListener("click",function(
 }, false);
 
 
-function highlightRange(range) {
+function highlightRange(range) { //highlights the selected range by adding a style
     var newNode = document.createElement("div");
     newNode.setAttribute(
        "style",
        "background-color: green; display: inline;"
     );
-    newNode.setAttribute("class", "highlightedTextM")
+    newNode.setAttribute("class", "highlightedTextM");
+    newNode.addEventListener("mouseover", showHighlighterForSelected);
+   //  newNode.addEventListener("mouseout", hideHighlighterForSelected);
     range.surroundContents(newNode);
 }
-
-function getSelectedText() {
+function getSelectedText() { //crossbrowser version
     var text = "";
+    var doc = undefined;
     var x, y, width, height, sel, range;
     if (typeof window.getSelection != "undefined") {
         sel = window.getSelection();
@@ -61,12 +65,12 @@ function getSelectedText() {
             }
 
             // Fall back to inserting a temporary element
-            if (x == 0 && y == 0) {
-                var span = doc.createElement("span");
+            if (x == 0 && y == 0 ) {
+                var span = document.createElement("span");
                 if (span.getClientRects) {
                     // Ensure span has dimensions and position by
                     // adding a zero-width space character
-                    span.appendChild( doc.createTextNode("\u200b") );
+                    span.appendChild( document.createTextNode("\u200b") );
                     range.insertNode(span);
                     rect = span.getClientRects()[0];
                     x = rect.left;
@@ -97,7 +101,7 @@ function getSelectedText() {
     }
     return {x:x, y:y, width: width, height: height, text:text, selection: sel, range : range};
 }
-function getCoords(elem) { // crossbrowser version
+function getCoords(elem) { //crossbrowser version
     var box = elem.getBoundingClientRect();
 
     var body = document.body;
@@ -114,25 +118,38 @@ function getCoords(elem) { // crossbrowser version
 
     return { top: Math.round(top), left: Math.round(left) };
 }
+function hideHighlighter(){ //hides the higlighter
+   highlighter.className = "highlightMenu";
+   isHighlighterShown = false;
+}
+function showHighlighter(x, y){ //shows the highlighter at given coordinates
+   highlighterStyle.position = 'absolute';
+   highlighterStyle.zIndex = 9999;
+   highlighter.className = 'highlightMenu--active';
+   highlighterStyle.left =  x + "px";
+   highlighterStyle.top = y + "px";
+   isHighlighterShown = true;
+}
 
-function showHighlighter(event) {
+function hideHighlighterForSelected(event) {
+   event.preventDefault();
+   if(event.toElement.id != 'highlighterMenu') {
+      hideHighlighter();
+   }
+}
+
+function showHiglighterForNew(event) {
     selection = getSelectedText();
-    console.debug(selection.selection, selection.text);
-    var highlighter = document.getElementById("highlighterMenu");
-    var highlighterStyle = highlighter.style;
-    highlighterStyle.position = 'absolute';
-    highlighterStyle.zIndex = 9999;
-    if (selection.text && selection.text != '' && !isHighlighterShown) {
-      highlighter.className = ' highlightMenu--active';
-      var parentElement = selection.selection.focusNode.parentElement;
-      highlighterStyle.left =  event.pageX + "px";
-      highlighterStyle.top = event.pageY + "px";
-      isHighlighterShown = true;
+    if (selection.text && selection.text != '' && !isHighlighterShown && selection.selection.focusNode.parentElement.nodeName == 'P') {
+      showHighlighter(event.pageX, event.pageY);
     } else if (!selection.text || selection.text === '') {
-      highlighter.className = "highlightMenu";
-      isHighlighterShown = false;
+      hideHighlighter();
     }
 }
 
+function showHighlighterForSelected(event) {
+   console.log('Recieved the event for mouseover', event);
+   showHighlighter(getCoords(event.target));
+}
 
-document.onmouseup = showHighlighter;
+document.onmouseup = showHiglighterForNew;

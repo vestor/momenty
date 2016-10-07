@@ -11,6 +11,7 @@
   },
 
   "permissions" : [
+    "storage",
     "activeTab",
     "identity",
     "tabs",
@@ -19,7 +20,7 @@
   ],
 
   "background" : {
-    "scripts" : ["js/background.js","js/google_platform.js"],
+    "scripts" : ["js/background.js","js/lock.min.js"],
     "persistent" : false
   },
 
@@ -32,14 +33,16 @@
   "content_scripts" : [
     {
       "matches": ["<all_urls>"],
-      "js" : ["js/range.js", "js/config.js", "js/aja.min.js", "js/jquery_min_3.1.0.js", "js/service.js", "js/controller.js"],
+      "js" : ["js/lock.min.js", "js/range.js", "js/config.js", "js/aja.min.js", "js/jquery_min_3.1.0.js", "js/service.js", "js/controller.js"],
       "css" : ["css/content_script.css"]
     }
   ],
 
   "web_accessible_resources": [
     "html/highlighter.html"
-  ]
+  ],
+
+  "content_security_policy": "script-src 'self' https://cdn.auth0.com; object-src 'self'"
 
 
 }

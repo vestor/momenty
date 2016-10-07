@@ -33,7 +33,7 @@
 
                 getUserSelections: function(){
                   //TODO Implement this
-
+                  return [];
                 },
 
                 postSelection: function (selection, callback) {
